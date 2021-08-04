@@ -1,9 +1,40 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.render('index', {
+const authMiddleware = require("../api/auth");
+const Roles = require("../models/Roles");
+
+router.get('/login/', (req, res) => {
+  res.render('login', {
   })
+});
+
+router.get('/', authMiddleware.authorize(Roles.Admin), (err, req, res, next) => {
+  console.log(err);
+  if(err) {
+    try {
+      res.render('homepage', {
+        message: "Welcome to Evotek CRUD Manager, Guest!",
+      });
+    } catch (err) {
+      // next(err);
+    } finally {
+      return;
+    };
+  }
+  const currentUser = req.user;
+  const sub = String(currentUser.sub);
+  const role = String(currentUser.role);
+
+  if(role === Roles.Admin) {
+    res.render('homepage', {
+      message: "Welcome to Evotek CRUD Manager, Administrator User!",
+    });
+  } else {
+    res.render('homepage', {
+      message: "Welcome to Evotek CRUD Manager, User!",
+    });
+  };
 });
 
 module.exports = router;
