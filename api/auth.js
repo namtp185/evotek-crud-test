@@ -31,6 +31,10 @@ const authorize = (requiredRoles = []) => {
     jwt({ secret, algorithms: ['HS256'] }),
 
     (req, res, next) => {
+      console.log(req.user.role);
+      console.log(requiredRoles);
+      console.log(!requiredRoles.includes(req.user.role));
+      console.log(requiredRoles.length && !requiredRoles.includes(req.user.role));
       // if roles are required and user role is not in required roles
       if (requiredRoles.length && !requiredRoles.includes(req.user.role)) {
           // then user's role is not authorized

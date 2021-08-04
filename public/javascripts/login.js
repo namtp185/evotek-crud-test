@@ -1,5 +1,19 @@
 console.log("login.js linked");
 
+$.ajax({
+  async: true,
+  method: "GET",
+  url: "/",
+  success: function(data) {
+    debugger
+    console.log(data);
+  },
+  error: function(req, err){
+    debugger
+    console.error(err);
+  }
+})
+
 $(document).ready(function() {
   const loginUrl = location.pathname;
 
@@ -16,7 +30,7 @@ $(document).ready(function() {
         values[this.name] = $(this).val();
     });
     $.ajax({
-      async: true,   
+      async: false,   
       method: "POST",
       data : $(this).serialize(),
       // cache: false,  
@@ -26,23 +40,35 @@ $(document).ready(function() {
         console.error(err)
       }
     })
-    .done(function(responseBody) {
-      const token = responseBody.token;
-      window.location.href = "/";
+    .then(function(responseBody) {
+      const token = "Bearer " + responseBody.token;
       console.log(token);
-      $.ajax({
-        async: true,
-        method: "GET",
-        url: "/",
-        beforeSend: function (xhr) {
-          xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-        },
-        success: function(data) {},
-        error: function(req, err){
-          console.error(err)
-        }
-      })
+      localStorage.setItem('token', token);
+      
     });
+
+    console.log(localStorage.getItem("token"))
+
+    //TODO make GET request succesfully
+
+    $.ajax({
+      async: true,
+      method: "GET",
+      crossDomain: true,
+      dataType: "jsonp",
+      jsonpCallback: "",
+      url: "localhost:3000/users/2",
+      headers: {
+        Authorization: localStorage.getItem("token")
+      },
+      // beforeSend: function (xhr) {
+      //   xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+      // },
+      success: function(data) {},
+      error: function(req, err){
+        console.error(err);
+      }
+    })
     return true; 
   });
 });
