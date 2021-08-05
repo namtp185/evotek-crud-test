@@ -30,7 +30,12 @@ const authorize = (requiredRoles = []) => {
     // authenticate JWT token and attach user to request object (req.user)
     jwt({ secret, algorithms: ['HS256'] }),
 
-    (req, res, next) => {
+    (err, req, res, next) => {
+      if(err) {
+        // pass error to router to catch
+        next(err);
+        return;
+      }
       console.log(req.user.role);
       console.log(requiredRoles);
       console.log(!requiredRoles.includes(req.user.role));

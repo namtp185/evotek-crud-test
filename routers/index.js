@@ -10,16 +10,20 @@ router.get('/login/', (req, res) => {
   })
 });
 
-router.get('/', authMiddleware.authorize(Roles.Admin), (err, req, res, next) => {
+router.get('/', authMiddleware.authorize(Roles.Admin), (req, res, next) => {
   console.log("index route called");
-  if(err) {
-    console.log(err);
+  // if user is not in request
+  // that mean the token is invalid leads  to jwt decode failure
+  // We treat that user is not logged in and require him to re-login
+  if(!req?.user) {
+    // console.log("Errrrrrrrrr");
+    // console.log(err);
     try {
       res.render('homepage', {
         message: "Welcome to Evotek CRUD Manager, Guest!",
       });
     } catch (err) {
-      // next(err);
+      next(err);
     } finally {
       return;
     };

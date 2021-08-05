@@ -50,25 +50,21 @@ $(document).ready(function() {
     console.log(localStorage.getItem("token"))
 
     //TODO make GET request succesfully
+    //DONE
 
     $.ajax({
-      async: true,
-      method: "GET",
-      crossDomain: true,
-      dataType: "jsonp",
-      jsonpCallback: "",
-      url: "localhost:3000/users/2",
-      headers: {
-        Authorization: localStorage.getItem("token")
-      },
-      // beforeSend: function (xhr) {
-      //   xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-      // },
-      success: function(data) {},
-      error: function(req, err){
-        console.error(err);
-      }
+      url: "http://localhost:3000/",
+      type: 'GET',
+      // Fetch the stored token from localStorage and set in the header
+      headers: {"Authorization": localStorage.getItem('token')}
     })
+    .done((response) => {
+      const newUrl = "/";
+      let newDoc = document.open("text/html", "replace");
+      newDoc.write(response);
+      newDoc.close();
+      history.pushState({}, null, newUrl);
+    });
     return true; 
   });
 });

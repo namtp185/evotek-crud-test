@@ -15,6 +15,9 @@ app.use(express.static('./public'));
 app.use(require('./routers/index'));
 app.use('/users', require("./api/user.controller"));
 
+const errorHandler = require("./routers/errorHandler");
+app.use(errorHandler);
+
 app.listen(process.env.PORT || 3000, function functionName() {
   console.log("Listening...");
 });
