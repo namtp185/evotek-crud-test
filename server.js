@@ -8,6 +8,18 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+const connectDB = require("./dbConnector");
+connectDB();
+const seedData = require("./dbSeeder");
+seedData()
+  .then((res) => {
+    console.log("Database create successfully!");
+  })
+  .catch((err) => {
+    console.log("Some database seeding error happened!");
+    console.log(err);
+  });
+
 app.set('view engine','pug');
 app.set('views','./views');
 

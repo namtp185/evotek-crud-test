@@ -13,6 +13,22 @@ html(lang="en")
 
   body
     <p>#{message}</p>
+    if users && users.length > 0
+      table.table(class=type)
+        thead
+          tr
+            each head, i in Object.keys(users[0])
+              th #{head}
+        tbody
+          each row,j in users
+            tr
+              each col,k in row
+                td #{col}
+
+    if userProfile
+      console.log(userProfile)
+      <p>#{userProfile.role}</p>
+
     <a href="/login">Login</a>
             
     script(src='vendor/jquery/jquery.min.js')  
