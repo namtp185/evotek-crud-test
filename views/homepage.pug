@@ -23,7 +23,11 @@ html(lang="en")
           each row,j in users
             tr
               each col,k in row
-                td #{col}
+                if (k === "username")
+                  td
+                    a(href=`/users/${col}`) #{col}
+                else
+                  td #{col}
 
     if userProfile
       <p>#{userProfile.role}</p>

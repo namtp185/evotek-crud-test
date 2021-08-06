@@ -2,10 +2,10 @@ const { users } = require("../dbMock");
 const User = require("../models/User");
 
 const getAll = async () => {
-  return users.map(u => {
-    const { password, ...userWithoutPassword } = u;
-    return userWithoutPassword;
-  });
+  return User.find({})
+              .select(["-password", "-date", "-__v", "-_id"])
+              .lean()
+              .exec();
 };
 
 const getById = async (id) => {
