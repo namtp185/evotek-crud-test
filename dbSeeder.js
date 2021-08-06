@@ -7,7 +7,6 @@ const seedData = async () => {
 };
 
 const seedUsers = async () => {
-  console.log(users);
   const promises = users.map(user => {
     return userService.create(user);
   })
