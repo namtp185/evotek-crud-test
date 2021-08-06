@@ -1,19 +1,5 @@
 console.log("login.js linked");
 
-$.ajax({
-  async: true,
-  method: "GET",
-  url: "/",
-  success: function(data) {
-    debugger
-    console.log(data);
-  },
-  error: function(req, err){
-    debugger
-    console.error(err);
-  }
-})
-
 $(document).ready(function() {
   const loginUrl = location.pathname;
 
@@ -44,27 +30,29 @@ $(document).ready(function() {
       const token = "Bearer " + responseBody.token;
       console.log(token);
       localStorage.setItem('token', token);
+
+      console.log(localStorage.getItem("token"))
+
+      //TODO make GET request succesfully
+      //DONE
+
+      $.ajax({
+        url: "http://localhost:3000/",
+        type: 'GET',
+        // Fetch the stored token from localStorage and set in the header
+        headers: {"Authorization": localStorage.getItem('token')}
+      })
+      .done((response) => {
+        const newUrl = "/";
+        let newDoc = document.open("text/html", "replace");
+        newDoc.write(response);
+        newDoc.close();
+        history.pushState({}, null, newUrl);
+      });
       
     });
 
-    console.log(localStorage.getItem("token"))
-
-    //TODO make GET request succesfully
-    //DONE
-
-    $.ajax({
-      url: "http://localhost:3000/",
-      type: 'GET',
-      // Fetch the stored token from localStorage and set in the header
-      headers: {"Authorization": localStorage.getItem('token')}
-    })
-    .done((response) => {
-      const newUrl = "/";
-      let newDoc = document.open("text/html", "replace");
-      newDoc.write(response);
-      newDoc.close();
-      history.pushState({}, null, newUrl);
-    });
+    
     return true; 
   });
 });
