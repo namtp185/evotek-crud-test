@@ -9,7 +9,7 @@ const secret = process.env.SECRET_KEY;
 const authenticate = async ({username, password}) => {
   const user = users.find(u => u.username === username && u.password === password);
   if (user) {
-      const token = jwtSign.sign({ sub: user.id, role: user.role }, secret);
+      const token = jwtSign.sign({ username: user.username, role: user.role }, secret);
       const { password, ...userWithoutPassword } = user;
       return {
           ...userWithoutPassword,

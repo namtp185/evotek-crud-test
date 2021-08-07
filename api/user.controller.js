@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Roles = require("../models/Roles");
 const authMiddleware = require("./auth");
-const { getAll, getById } = require("./user.service");
+const { getAll, getByUsername } = require("./user.service");
 
 router.post('/authenticate', async (req, res, next) => {
   authMiddleware.authenticate(req.body)
@@ -14,14 +14,14 @@ router.post('/authenticate', async (req, res, next) => {
 router.get('/thirdparty/:id', authMiddleware.authorize(), (req, res, next) => {
   // get currentUser decoded from token by the middleware and compare with id is being viewed
   const currentUser = req.user;
-  const sub = String(currentUser.sub);
+  const username = String(currentUser.username);
   const role = String(currentUser.role);
 
   const id = String(req.params.id);
 
   // normal user can't see other profile id
   // Only thirdparty user allowed to access
-  if(sub !== id || role !== Roles.ThirdParty) {
+  if(username !== id || role !== Roles.ThirdParty) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
@@ -39,24 +39,34 @@ router.get('/', authMiddleware.authorize(Roles.Admin), (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.get('/:id', authMiddleware.authorize(), (req, res, next) => {
+router.get('/:username', authMiddleware.authorize(), (req, res, next) => {
   // get currentUser decoded from token by the middleware and compare with id is being viewed
   const currentUser = req.user;
-  const sub = String(currentUser.sub);
+  const username = String(currentUser.username);
   const role = String(currentUser.role);
 
+  const usernameToFetch = String(req.params.username);
 
-  const id = String(req.params.id);
+  console.log(username);
+  console.log(usernameToFetch);
 
-  // normal user can't see other profile id
+  // normal user can't see other profile with different username
   // controller will decide which roles will have the access to the resource correspond with this endpoint
-  if(sub !== id && role !== Roles.Admin) {
+  if(username !== usernameToFetch && role !== Roles.Admin) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  // getUserById
-  getById(id)
-    .then(user => user ? res.json(user) : res.sendStatus(404))
+  // getUserByUsername
+  getByUsername(usernameToFetch)
+    .then(user => {
+      console.log(user)
+      user 
+        ? res.render('homepage', {
+          message: "",
+          userProfile: user
+        })
+        : res.sendStatus(404)
+    })
     .catch(err => next(err));
 
 });
