@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Roles = require("../models/Roles");
 const authMiddleware = require("./auth");
-const { getAll, getByUsername } = require("./user.service");
+const { getAll, getByUsername, create } = require("./user.service");
 
 router.post('/authenticate', async (req, res, next) => {
   authMiddleware.authenticate(req.body)
@@ -37,6 +37,19 @@ router.get('/', authMiddleware.authorize(Roles.Admin), (req, res, next) => {
   getAll()
     .then(users => res.json(users))
     .catch(err => next(err));
+});
+
+router.post('/', async (req, res, next) => {
+  create(req.body)
+    .then(user => {
+      console.log(user);
+      res.status(200).json({message: "Insert success. Now going to dashboard"});
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({message: "internal server errorr"})
+    })
+  ;
 });
 
 router.get('/:username', authMiddleware.authorize(), (req, res, next) => {

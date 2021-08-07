@@ -16,13 +16,6 @@ block content
       label(for="inputPassword" class="sr-only") Password
       input(type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required)
 
-      //-remember Checkbox
-      - var divClasses=['checkbox', 'mb-3'];
-      div(class=divClasses)
-        label
-          input(type="checkbox" value="remember-me")
-          span Remember me
-
       //-signIn button
       - var buttonClass=['btn', 'btn-lg', 'btn-primary', 'btn-block'];
       button(class=buttonClass type="submit") Sign in

@@ -1,0 +1,39 @@
+doctype html
+html(lang="en")
+  head
+    title Evotek-Crud-Manager
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    meta(name="description" content="")
+    meta(name="author" content="")
+    
+    link(rel='stylesheet', href='stylesheets/main.css')
+    link(rel='stylesheet', href='vendor/bootstrap/css/bootstrap.min.css')
+    link(rel="icon" type="image/png" href="images/icon.png")
+
+  body
+    block content
+      section(class="container")
+        div.text-left
+          h1(class="large text-primary") Sign Up
+          p(class="lead")
+            i(class="fas fa-user")
+            p Create Your Account
+          form(id="signupForm" class="form-signup")
+            div(class="form-group")
+              input(type="text" name="username" placeholder="Username")
+            div(class="form-group")
+              input(type="email" name="email" placeholder="Email")
+            div(class="form-group")
+              input(type="password" name="password" placeholder="Password")
+            div(class="form-group")
+              input(type="password" name="confirm_password" placeholder="Confirm password")
+            button(type="submit" class="btn btn-primary") Register
+          p(id="messagePlaceholder" class="my-2")
+          p(class="my-1")
+
+          p(className="my-1") Already have an account?
+            a(href="/login") Login
+    script(src='vendor/jquery/jquery.min.js')  
+    script(src='vendor/bootstrap/js/bootstrap.bundle.min.js')
+    script(src='javascripts/signup.js')

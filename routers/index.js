@@ -10,6 +10,11 @@ router.get('/login/', (req, res) => {
   })
 });
 
+router.get('/signup', (req, res) => {
+  res.render('signup', {
+  });
+});
+
 router.get('/', authMiddleware.authorize(Roles.Admin), async (req, res, next) => {
   // if user is not in request
   // that mean the token is invalid leads  to jwt decode failure

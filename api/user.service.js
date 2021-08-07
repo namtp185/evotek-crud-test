@@ -24,13 +24,12 @@ const create = async (user) => {
     ;
 
   if(userExisted) {
-    return {};
+    return Promise.reject(new Error('Object duplicate key'));
   }
 
   const userInstance = new User(user);
 
-  await userInstance.save();
-  return user;
+  return await userInstance.save();
 }
 
 module.exports = {
