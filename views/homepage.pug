@@ -25,12 +25,14 @@ html(lang="en")
               each col,k in row
                 if (k === "username")
                   td
-                    a(href=`/users/${col}`) #{col}
+                    a(class="profile-link" href=`/users/${col}`) #{col}
                 else
                   td #{col}
 
     if userProfile
       <p>#{userProfile.role}</p>
+      <p>#{userProfile.email}</p>
+      <p>#{userProfile.username}</p>
 
     <a href="/login">Login</a>
             

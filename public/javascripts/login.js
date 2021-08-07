@@ -55,4 +55,28 @@ $(document).ready(function() {
     
     return true; 
   });
+
+  $("a.profile-link").click(function(event) {
+    event.preventDefault();
+    const thisEl = this;
+    const fetchUrl = "http://localhost:3000" + $(thisEl).attr("href");
+    $.ajax({
+      url: fetchUrl,
+      type: 'GET',
+      // Fetch the stored token from localStorage and set in the header
+      headers: {"Authorization": localStorage.getItem('token')}
+    })
+    .done((response) => {
+      const newUrl = fetchUrl;
+      let newDoc = document.open("text/html", "replace");
+      newDoc.write(response);
+      newDoc.close();
+      history.pushState({}, null, newUrl);
+    });
+  });
+
+
+  // For secure reason
+
 });
+

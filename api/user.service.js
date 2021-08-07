@@ -8,11 +8,11 @@ const getAll = async () => {
               .exec();
 };
 
-const getById = async (id) => {
-  const user = users.find(u => u.id === parseInt(id));
-  if (!user) return;
-  const { password, ...userWithoutPassword } = user;
-  return userWithoutPassword;
+const getByUsername = async (username) => {
+  return User.findOne({username: username})
+            .select(["-password", "-date", "-__v", "-_id"])
+            .lean()
+            .exec();
 };
 
 const create = async (user) => {
@@ -35,6 +35,6 @@ const create = async (user) => {
 
 module.exports = {
   getAll,
-  getById,
+  getByUsername,
   create,
 }
