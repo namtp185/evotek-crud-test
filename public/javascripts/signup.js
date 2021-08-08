@@ -35,6 +35,23 @@ $(document).ready(function() {
       console.log(responseBody.message);
       $("#messagePlaceholder").attr("class", "text-success");
       $("#messagePlaceholder").html(responseBody.message);
+
+      // fetch login page
+      $.ajax({
+        async: true,
+        method: "GET",
+        url: "/login",
+      })
+      .done((responseBody) => {
+        const newUrl = "/login";
+        let newDoc = document.open("text/html", "replace");
+        newDoc.write(responseBody);
+        newDoc.close();
+        history.pushState({}, null, newUrl);
+      })
+      .fail((err) => {
+        console.error(err);
+      });
     })
     .fail((err) => {
       console.error(err.message);
