@@ -4,7 +4,7 @@
   "description": "A simple nodejs project starter with pugjs templating.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,5 +25,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.5",
     "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
   }
 }

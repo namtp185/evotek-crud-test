@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const Roles = require("../models/Roles");
-const authMiddleware = require("./auth");
-const { getAll, getByUsername, create } = require("./user.service");
+const authMiddleware = require("../service/auth");
+const { getAll, getByUsername, create } = require("../service/user.service");
 
 router.post('/authenticate', async (req, res, next) => {
   authMiddleware.authenticate(req.body)

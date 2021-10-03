@@ -1,5 +1,5 @@
 const User = require("./models/User");
-const userService = require("./api/user.service");
+const userService = require("./service/user.service");
 const { users } = require("./dbMock");
 
 const seedData = async () => {
